@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Formulário de Namoro 💙</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(20, 35, 60, 0.95);
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      color: #4fc3f7;
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    input, textarea, button {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #4fc3f7;
+      font-size: 1em;
+      outline: none;
+    }
+
+    input, textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    button {
+      background: linear-gradient(90deg,#4fc3f7,#0288d1);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(79,195,247,0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Formulário de Namoro 💙</h1>
+    <form id="loveForm">
+      <input type="text" name="nome" placeholder="Nome completo" required>
+      <input type="date" name="aniversario" required>
+      <input type="text" name="cor" placeholder="Cor favorita">
+      <input type="color" name="corhex" value="#0288d1">
+      <input type="text" name="comida" placeholder="Comida favorita">
+      <input type="text" name="bebida" placeholder="Bebida favorita">
+      <input type="text" name="doce" placeholder="Doce favorito">
+      <input type="text" name="filme" placeholder="Filme/Série favorita">
+      <input type="text" name="musica" placeholder="Música/Banda favorita">
+      <input type="text" name="animal" placeholder="Animal favorito">
+      <input type="text" name="hobby" placeholder="Hobby/Passatempo favorito">
+      <input type="text" name="lugar" placeholder="Lugar favorito">
+      <textarea name="sonho" placeholder="Sonho ou meta de vida"></textarea>
+      <textarea name="mania" placeholder="Uma mania ou costume engraçado"></textarea>
+      <textarea name="feliz" placeholder="O que faz quando está feliz?"></textarea>
+      <textarea name="carinho" placeholder="Como gosta de receber carinho?"></textarea>
+      <button type="submit">Enviar 💌</button>
+    </form>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBs-4JqErS3k8dwkeOt98Qvq47XPnmy-GU",
+      authDomain: "form-namoro.firebaseapp.com",
+      projectId: "form-namoro",
+      storageBucket: "form-namoro.firebasestorage.app",
+      messagingSenderId: "1023074951629",
+      appId: "1:1023074951629:web:4b03d809e9fbe8ee1fe484",
+      measurementId: "G-TQ62WRNV78"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById('loveForm');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const dados = Object.fromEntries(new FormData(form).entries());
+      try {
+        await addDoc(collection(db, 'respostas'), dados);
+        alert('Resposta salva no Firebase ✅');
+        form.reset();
+      } catch (err) {
+        alert('Erro ao salvar ❌ ' + err);
+      }
+    });
+  </script>
+</body>
+</html>
